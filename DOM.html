@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+</head>
+<body>
+    <h1>To-Do List</h1>
+    <input type="text" id="task" placeholder="Enter a new task">
+    <button id="addTaskButton">Add Task</button>
+    <ul id="taskList"></ul>
+
+    <script>
+        const addTaskButton = document.getElementById("addTaskButton");
+        const taskInput = document.getElementById("task");
+        const taskList = document.getElementById("taskList");
+
+        // Load tasks from local storage
+        function loadTasks() {
+            const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+            tasks.forEach(task => {
+                const li = document.createElement("li");
+                li.textContent = task;
+                taskList.appendChild(li);
+            });
+        }
+
+        // Save tasks to local storage
+        function saveTask(task) {
+            const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+            tasks.push(task);
+            localStorage.setItem("tasks", JSON.stringify(tasks));
+        }
+
+        // Add task when button is clicked
+        addTaskButton.addEventListener("click", function() {
+            const task = taskInput.value;
+            if (task) {
+                saveTask(task);
+                const li = document.createElement("li");
+                li.textContent = task;
+                taskList.appendChild(li);
+                taskInput.value = "";  // Clear input
+            } else {
+                alert("Please enter a task!");
+            }
+        });
+
+        // Load existing tasks when the page is loaded
+        loadTasks();
+    </script>
+</body>
+</html>
